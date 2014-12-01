@@ -32,7 +32,10 @@ func main() {
 }
 
 func serveHome(resp http.ResponseWriter, req *http.Request) {
-  executeTemplate(resp, "index.html", map[string]interface{}{})
+  //executeTemplate(resp, "index.html", map[string]interface{}{})
+  tempdata := make(map[string]interface{})
+  tempdata["Name"] = "David"
+  executeTemplate(resp, "index.html", tempdata)
 }
 
 var templates = map[string]interface { Execute(io.Writer, interface {}) error}{}
@@ -49,7 +52,7 @@ func joinTemplateDir(base string, files[]string) []string {
 func parseHtmlTemplates(sets [][]string) error {
   for _, set := range sets {
     templateName := set[0]
-    t := template.New("")
+    t := template.New(templateName)
     if _, err := t.ParseFiles(joinTemplateDir(*assetsDir, set)...); err != nil {
       return err
     }
